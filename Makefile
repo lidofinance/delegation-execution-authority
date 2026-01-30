@@ -8,7 +8,7 @@ up:
 	@if [ -z "$$(docker ps -q -f name=$(DEV_CONTAINER_NAME))" ]; then \
 		echo "No container found, starting..."; \
 		docker build --target development -t $(DEV_IMAGE) .; \
-		docker run -dit --name $(DEV_CONTAINER_NAME) -v $$(pwd):$(DEV_WORKDIR) $(DEV_IMAGE) sleep infinity; \
+		docker run -dit --env-file .env --name $(DEV_CONTAINER_NAME) -v $$(pwd):$(DEV_WORKDIR) $(DEV_IMAGE) sleep infinity; \
 	else \
 		echo "Container $(DEV_CONTAINER_NAME) already running"; \
 	fi
