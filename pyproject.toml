@@ -7,3 +7,8 @@ requires-python = ">=3.14"
 dependencies = [
     "eth-ape>=0.8.47",
 ]
+
+[dependency-groups]
+dev = [
+    "ipython>=8.38.0",
+]

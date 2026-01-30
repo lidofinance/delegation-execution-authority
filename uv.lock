@@ -340,8 +340,16 @@ dependencies = [
     { name = "eth-ape" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "ipython" },
+]
+
 [package.metadata]
 requires-dist = [{ name = "eth-ape", specifier = ">=0.8.47" }]
+
+[package.metadata.requires-dev]
+dev = [{ name = "ipython", specifier = ">=8.38.0" }]
 
 [[package]]
 name = "eip712"
