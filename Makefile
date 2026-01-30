@@ -32,6 +32,6 @@ ipython: up
 	$(EXEC_CMD_INTERACTIVE) uv run ipython
 
 uv-lock: up
-	$(EXEC_CMD) uv lock --no-update
+	$(EXEC_CMD) uv lock --no-upgrade
 
 .PHONY: up rebuild down sh ipython uv-lock

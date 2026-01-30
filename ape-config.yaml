@@ -1,13 +1,13 @@
 name: delegated-execution-authority
 
 plugins:
-  - solidity:
-    version: 0.8.14
+  - name: solidity
+    version: 0.8.5
   - name: foundry
-    version: 0.8.9
+    version: 0.8.11
 
-vyper:
-  version: 0.4.3
+solidity:
+  version: "0.8.28"
 
 networks:
   custom:
