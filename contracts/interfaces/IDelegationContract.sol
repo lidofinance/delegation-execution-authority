@@ -57,5 +57,5 @@ interface IDelegationContract {
     /// @notice Execute a call to a target contract on behalf of this delegation contract
     /// @param data ABI-encoded as (address target, bytes calldata) - the target contract and calldata to execute
     /// @return result The return data from the call
-    function delegatecall(bytes calldata data) external returns (bytes memory result);
+    function execute(bytes calldata data) external returns (bytes memory result);
 }

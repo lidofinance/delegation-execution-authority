@@ -93,9 +93,8 @@ contract DelegationContract is IDelegationContract {
 
     /// @inheritdoc IDelegationContract
     /// @dev Only the delegatee can execute calls through this contract.
-    ///      Uses a regular call (not EVM delegatecall) so that msg.sender
-    ///      to the target is this contract's address.
-    function delegatecall(bytes calldata data) external onlyDelegatee returns (bytes memory result) {
+    ///      Uses a regular call so that msg.sender to the target is this contract's address.
+    function execute(bytes calldata data) external onlyDelegatee returns (bytes memory result) {
         (address target, bytes memory callData) = abi.decode(data, (address, bytes));
 
         if (target == address(0)) revert ZeroAddress();
