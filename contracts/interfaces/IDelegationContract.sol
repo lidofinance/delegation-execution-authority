@@ -1,9 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
+/// @title IDelegationContract
+/// @author Lido
+/// @notice Interface for delegation contracts that allow hot key rotation without governance
 interface IDelegationContract {
+    /// @notice Emitted when a new delegate is assigned
+    /// @param delegate The address of the newly assigned delegate
     event DelegateAssigned(address indexed delegate);
+
+    /// @notice Emitted when a delegate is revoked
+    /// @param delegate The address of the revoked delegate
     event DelegateRevoked(address indexed delegate);
+
+    /// @notice Emitted when the admin is changed
+    /// @param oldAdmin The address of the previous admin
+    /// @param newAdmin The address of the new admin
     event AdminChanged(address indexed oldAdmin, address indexed newAdmin);
 
     error NotAdmin();
@@ -13,13 +25,26 @@ interface IDelegationContract {
     error SameAdmin();
     error NoDelegatee();
     error InvalidSignature();
+    error TargetNotContract();
     error DelegatecallFailed();
 
+    /// @notice Returns the admin address
+    /// @return The address of the admin (cold wallet or multisig owner)
     function admin() external view returns (address);
+
+    /// @notice Returns the delegatee address
+    /// @return The address of the delegatee (hot wallet owner)
     function delegatee() external view returns (address);
 
+    /// @notice Assigns a new delegate
+    /// @param delegate The address to assign as delegate
     function assignDelegate(address delegate) external;
+
+    /// @notice Revokes the current delegate
     function revokeDelegate() external;
+
+    /// @notice Changes the admin address
+    /// @param newAdmin The address of the new admin
     function changeAdmin(address newAdmin) external;
 
     /// @notice EIP-1271 signature validation

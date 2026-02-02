@@ -5,6 +5,7 @@ import {IDelegationContract} from "./interfaces/IDelegationContract.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 /// @title DelegationContract
+/// @author Lido
 /// @notice A delegation contract that allows an admin to delegate signing authority to a hot key
 /// @dev Implements EIP-1271 for signature validation, allowing protocols to verify
 ///      that a signature was made by the authorized delegatee
@@ -96,8 +97,10 @@ contract DelegationContract is IDelegationContract {
         (address target, bytes memory callData) = abi.decode(data, (address, bytes));
 
         if (target == address(0)) revert ZeroAddress();
+        if (target.code.length == 0) revert TargetNotContract();
 
         bool success;
+        // solhint-disable-next-line avoid-low-level-calls
         (success, result) = target.call(callData);
 
         if (!success) {
