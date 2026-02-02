@@ -38,6 +38,7 @@ contract DelegationContract is IDelegationContract {
     /// @param _delegatee The initial delegatee (can be address(0) if not set initially)
     constructor(address _admin, address _delegatee) {
         if (_admin == address(0)) revert ZeroAddress();
+        if (_delegatee == _admin) revert AdminCannotBeDelegatee();
 
         admin = _admin;
 
@@ -51,6 +52,7 @@ contract DelegationContract is IDelegationContract {
     function assignDelegate(address _delegate) external onlyAdmin {
         if (_delegate == address(0)) revert ZeroAddress();
         if (_delegate == delegatee) revert SameDelegatee();
+        if (_delegate == admin) revert AdminCannotBeDelegatee();
 
         delegatee = _delegate;
         emit DelegateAssigned(_delegate);
@@ -97,6 +99,7 @@ contract DelegationContract is IDelegationContract {
         (address target, bytes memory callData) = abi.decode(data, (address, bytes));
 
         if (target == address(0)) revert ZeroAddress();
+        if (target == address(this)) revert CannotCallSelf();
         if (target.code.length == 0) revert TargetNotContract();
 
         bool success;

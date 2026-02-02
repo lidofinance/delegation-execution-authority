@@ -26,6 +26,8 @@ interface IDelegationContract {
     error NoDelegatee();
     error InvalidSignature();
     error TargetNotContract();
+    error CannotCallSelf();
+    error AdminCannotBeDelegatee();
     error DelegatecallFailed();
 
     /// @notice Returns the admin address
