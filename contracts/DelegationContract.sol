@@ -16,10 +16,10 @@ contract DelegationContract is IDelegationContract {
     /// @notice Value returned on invalid signature
     bytes4 internal constant EIP1271_INVALID = 0xffffffff;
 
-    /// @notice The admin address (cold key or multisig)
+    /// @notice The admin address (owner of cold wallet or multisig)
     address public admin;
 
-    /// @notice The delegatee address (hot key)
+    /// @notice The delegatee address (owner of hot wallet)
     address public delegatee;
 
     modifier onlyAdmin() {
