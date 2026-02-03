@@ -46,6 +46,3 @@ This model assumes that each permissioned entity (oracle/council operator) is a 
 4. Factory based deployment
     - A factory contract deploys standardized delegation contract
     - Delegation Layer should be used for any permissioned bot
-
-License
-- MIT (adjust as appropriate)
