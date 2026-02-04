@@ -266,3 +266,21 @@ class TestExecute:
 
         with ape.reverts():
             delegation_contract.execute(data, sender=delegatee)
+
+    def test_execute__submit_report__caller_is_delegation_not_hot_key(
+        self, delegation_contract, mock_hash_consensus, delegatee, deployer
+    ):
+        mock_hash_consensus.addMember(delegation_contract.address, sender=deployer)
+
+        slot = 456
+        report = b"\xab" * 32
+        consensus_version = 1
+        call_data = mock_hash_consensus.submitReport.encode_input(slot, report, consensus_version)
+        data = encode(["address", "bytes"], [mock_hash_consensus.address, call_data])
+
+        tx = delegation_contract.execute(data, sender=delegatee)
+
+        logs = list(tx.decode_logs(mock_hash_consensus.ReportSubmitted))
+        assert len(logs) == 1
+        assert logs[0].member == delegation_contract.address
+        assert logs[0].member != delegatee.address
