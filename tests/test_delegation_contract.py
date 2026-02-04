@@ -134,6 +134,12 @@ class TestChangeAdmin:
         with ape.reverts(project.DelegationContract.NotAdmin):
             delegation_contract.changeAdmin(new_admin.address, sender=delegatee)
 
+    def test_change_admin__new_admin_is_delegatee__reverts(
+        self, delegation_contract, admin, delegatee
+    ):
+        with ape.reverts(project.DelegationContract.AdminCannotBeDelegatee):
+            delegation_contract.changeAdmin(delegatee.address, sender=admin)
+
 
 @pytest.mark.fork
 class TestIsValidSignature:

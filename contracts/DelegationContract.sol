@@ -72,6 +72,7 @@ contract DelegationContract is IDelegationContract {
     function changeAdmin(address _newAdmin) external onlyAdmin {
         if (_newAdmin == address(0)) revert ZeroAddress();
         if (_newAdmin == admin) revert SameAdmin();
+        if (_newAdmin == delegatee) revert AdminCannotBeDelegatee();
 
         address oldAdmin = admin;
         admin = _newAdmin;
