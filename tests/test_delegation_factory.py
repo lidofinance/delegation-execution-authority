@@ -1,10 +1,12 @@
 import ape
+import pytest
 from ape import project
 
 ZERO_ADDRESS = "0x0000000000000000000000000000000000000000"
 
 
-class TestDelegationFactoryForkTestCase:
+@pytest.mark.fork
+class TestDelegationFactory:
 
     def test_deploy_delegation__valid_admin_and_delegatee__creates_contract(
         self, delegation_factory_contract, admin, delegatee

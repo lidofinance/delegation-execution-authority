@@ -9,6 +9,20 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from services import FactoryDeployerService
 
 
+def pytest_configure(config):
+    config.addinivalue_line("markers", "fork: run test with mainnet fork")
+
+
+@pytest.fixture(autouse=True)
+def _fork_context(request):
+    """Auto-apply mainnet fork context for tests marked with @pytest.mark.fork."""
+    if request.node.get_closest_marker("fork"):
+        with networks.ethereum.mainnet_fork.use_provider("foundry"):
+            yield
+    else:
+        yield
+
+
 @pytest.fixture
 def deployer(accounts):
     """Pre-funded test account for deploying contracts."""
@@ -28,14 +42,7 @@ def delegatee(accounts):
 
 
 @pytest.fixture
-def mainnet_fork():
-    """Mainnet fork network context."""
-    with networks.ethereum.mainnet_fork.use_provider("foundry"):
-        yield
-
-
-@pytest.fixture
-def delegation_factory_contract(mainnet_fork, deployer):
+def delegation_factory_contract(deployer):
     """Deploy DelegationFactory via FactoryDeployerService."""
     result = FactoryDeployerService(deployer).execute()
     return result.contract
