@@ -1,0 +1,32 @@
+name: Tests
+
+on:
+  push:
+
+env:
+  DEV_IMAGE: lidofinance/delegation-execution-authority:dev
+  MAINNET_RPC_URI: https://ethereum-rpc.publicnode.com
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build --platform linux/amd64 --target development -t $DEV_IMAGE .
+
+      - name: Compile contracts
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/app -w /app $DEV_IMAGE uv run ape compile
+
+      - name: Lint Solidity
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/app -w /app $DEV_IMAGE solhint 'contracts/**/*.sol'
+
+      - name: Run tests
+        run: |
+          docker run --rm -e MAINNET_RPC_URI=$MAINNET_RPC_URI -v ${{ github.workspace }}:/app -w /app $DEV_IMAGE uv run ape test -v
