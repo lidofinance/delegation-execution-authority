@@ -46,3 +46,10 @@ def delegation_factory_contract(deployer):
     """Deploy DelegationFactory via FactoryDeployerService."""
     result = FactoryDeployerService(deployer).execute()
     return result.contract
+
+
+@pytest.fixture
+def delegation_contract(delegation_factory_contract, admin, delegatee, project):
+    """Deploy DelegationContract via factory."""
+    tx = delegation_factory_contract.deployDelegation(admin.address, delegatee.address, sender=admin)
+    return project.DelegationContract.at(tx.return_value)
