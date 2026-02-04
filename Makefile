@@ -40,4 +40,10 @@ compile: up
 lint-solidity: compile
 	$(EXEC_CMD) solhint 'contracts/**/*.sol'
 
-.PHONY: up rebuild down sh ipython uv-lock compile lint-solidity
+deploy-testnet: compile
+	$(EXEC_CMD_INTERACTIVE) uv run python scripts/deploy_factory.py --network testnet --publish
+
+deploy-mainnet: compile
+	$(EXEC_CMD_INTERACTIVE) uv run python scripts/deploy_factory.py --network mainnet --publish
+
+.PHONY: up rebuild down sh ipython uv-lock compile lint-solidity deploy-testnet deploy-mainnet

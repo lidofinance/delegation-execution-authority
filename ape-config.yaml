@@ -24,6 +24,8 @@ networks:
 
 node:
   ethereum:
+    mainnet:
+      http_uri: ${MAINNET_RPC_URI}
     hoodi:
       http_uri: ${HOODI_RPC_URI}
 
