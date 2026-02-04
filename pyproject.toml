@@ -10,7 +10,3 @@ dependencies = [
     "ape-foundry>=0.8.11",
 ]
 
-[dependency-groups]
-dev = [
-    "ipython>=8.38.0",
-]

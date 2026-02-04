@@ -28,8 +28,11 @@ rebuild:
 sh: up
 	$(EXEC_CMD_INTERACTIVE) bash
 
-ipython: up
-	$(EXEC_CMD_INTERACTIVE) uv run ipython
+console: up
+	$(EXEC_CMD_INTERACTIVE) uv run ape console
+
+console-fork: up
+	$(EXEC_CMD_INTERACTIVE) uv run ape console --network ethereum:mainnet-fork:foundry
 
 uv-lock: up
 	$(EXEC_CMD) uv lock --no-upgrade
@@ -40,10 +43,13 @@ compile: up
 lint-solidity: compile
 	$(EXEC_CMD) solhint 'contracts/**/*.sol'
 
+test: compile
+	$(EXEC_CMD) uv run ape test -v
+
 deploy-testnet: compile
-	$(EXEC_CMD_INTERACTIVE) uv run python scripts/deploy_factory.py --network testnet --publish
+	$(EXEC_CMD_INTERACTIVE) uv run ape run deploy_factory --network ethereum:hoodi:node --publish
 
 deploy-mainnet: compile
-	$(EXEC_CMD_INTERACTIVE) uv run python scripts/deploy_factory.py --network mainnet --publish
+	$(EXEC_CMD_INTERACTIVE) uv run ape run deploy_factory --network ethereum:mainnet:node --publish
 
-.PHONY: up rebuild down sh ipython uv-lock compile lint-solidity deploy-testnet deploy-mainnet
+.PHONY: up rebuild down sh console uv-lock compile lint-solidity test deploy-testnet deploy-mainnet
