@@ -23,16 +23,16 @@ RUN uv sync --frozen --no-dev --no-install-project
 
 FROM base AS development
 
-# Install Foundry (for contract compilation and testing)
+# Install Foundry (pinned version for reproducibility)
 RUN curl -L https://foundry.paradigm.xyz | bash && \
-    /root/.foundry/bin/foundryup
+    /root/.foundry/bin/foundryup -v v1.6.0
 
 ENV PATH="/root/.foundry/bin:$PATH"
 
-# Install Node.js and solhint (Solidity linter)
+# Install Node.js and solhint (pinned versions for reproducibility)
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install -y nodejs && \
-    npm install -g solhint && \
+    npm install -g solhint@6.0.3 && \
     rm -rf /var/lib/apt/lists/*
 
 RUN uv sync --frozen --no-install-project
