@@ -1,5 +1,6 @@
 DEV_CONTAINER_NAME = delegation-dev-container
 DEV_IMAGE = lidofinance/delegation-execution-authority:dev
+PROD_IMAGE = lidofinance/delegation-execution-authority:latest
 DEV_WORKDIR = /app
 EXEC_CMD = docker exec -w $(DEV_WORKDIR) $(DEV_CONTAINER_NAME)
 EXEC_CMD_INTERACTIVE = docker exec -w $(DEV_WORKDIR) -it $(DEV_CONTAINER_NAME)
@@ -57,10 +58,13 @@ typecheck: up
 test: compile
 	$(EXEC_CMD) uv run ape test -v
 
-deploy-testnet: compile
-	$(EXEC_CMD_INTERACTIVE) uv run ape run deploy_factory --network ethereum:hoodi:node --publish
+build-prod:
+	docker build --platform linux/amd64 --target production -t $(PROD_IMAGE) .
 
-deploy-mainnet: compile
-	$(EXEC_CMD_INTERACTIVE) uv run ape run deploy_factory --network ethereum:mainnet:node --publish
+deploy-testnet: build-prod
+	docker run --rm -it --env-file .env $(PROD_IMAGE) uv run ape run deploy_factory --network ethereum:hoodi:node --publish
 
-.PHONY: up rebuild down sh console uv-lock compile lint-solidity lint-python format-python typecheck test deploy-testnet deploy-mainnet
+deploy-mainnet: build-prod
+	docker run --rm -it --env-file .env $(PROD_IMAGE) uv run ape run deploy_factory --network ethereum:mainnet:node --publish
+
+.PHONY: up rebuild down sh console uv-lock compile lint-solidity lint-python format-python typecheck test build-prod deploy-testnet deploy-mainnet
