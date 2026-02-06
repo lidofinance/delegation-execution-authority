@@ -62,9 +62,9 @@ build-prod:
 	docker build --platform linux/amd64 --target production -t $(PROD_IMAGE) .
 
 deploy-testnet: build-prod
-	docker run --rm -it --env-file .env $(PROD_IMAGE) uv run ape run deploy_factory --network ethereum:hoodi:node --publish
+	docker run --rm -it --env-file .env $(PROD_IMAGE) uv run --no-dev ape run deploy_factory --network ethereum:hoodi:node --publish
 
 deploy-mainnet: build-prod
-	docker run --rm -it --env-file .env $(PROD_IMAGE) uv run ape run deploy_factory --network ethereum:mainnet:node --publish
+	docker run --rm -it --env-file .env $(PROD_IMAGE) uv run --no-dev ape run deploy_factory --network ethereum:mainnet:node --publish
 
 .PHONY: up rebuild down sh console uv-lock compile lint-solidity lint-python format-python typecheck test build-prod deploy-testnet deploy-mainnet
