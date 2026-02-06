@@ -33,4 +33,4 @@ etherscan:
   ethereum:
     hoodi:
       uri: https://hoodi.etherscan.io
-      api_uri: https://api-hoodi.etherscan.io/api
+      api_uri: https://api.etherscan.io/v2/api?chainid=560048

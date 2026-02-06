@@ -8,6 +8,7 @@ dependencies = [
     "eth-ape>=0.8.47",
     "ape-solidity>=0.8.5",
     "ape-foundry>=0.8.11",
+    "ape-etherscan>=0.8.5",
 ]
 
 [dependency-groups]

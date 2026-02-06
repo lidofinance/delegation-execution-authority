@@ -89,6 +89,21 @@ wheels = [
 ]
 
 [[package]]
+name = "ape-etherscan"
+version = "0.8.5"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "eth-ape" },
+    { name = "ethpm-types" },
+    { name = "requests" },
+    { name = "yarl" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ad/54/3f5569db11dc95b3bd71a3fb8c00d7ebebc364e5a44b6f7910c7b0385e79/ape_etherscan-0.8.5.tar.gz", hash = "sha256:547bb4420a7a20466d449bcf9d312cc77cb8e9e647ba9eb7883b93e89a6f6cf0", size = 106370, upload-time = "2025-11-10T19:02:31.991Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cd/df/eefcb2e42a0d2b8c298e4456aebbe97a79b81af6cd0bb2cecab9d11dfd49/ape_etherscan-0.8.5-py3-none-any.whl", hash = "sha256:9cef53229ed3265ea94d2b890a1bf3188ca6cae31186587f91781aaf991a9252", size = 27749, upload-time = "2025-11-10T19:02:30.606Z" },
+]
+
+[[package]]
 name = "ape-foundry"
 version = "0.8.11"
 source = { registry = "https://pypi.org/simple" }
@@ -372,6 +387,7 @@ name = "delegation-execution-authority"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "ape-etherscan" },
     { name = "ape-foundry" },
     { name = "ape-solidity" },
     { name = "eth-ape" },
@@ -385,6 +401,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "ape-etherscan", specifier = ">=0.8.5" },
     { name = "ape-foundry", specifier = ">=0.8.11" },
     { name = "ape-solidity", specifier = ">=0.8.5" },
     { name = "eth-ape", specifier = ">=0.8.47" },
