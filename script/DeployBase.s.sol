@@ -52,5 +52,4 @@ abstract contract DeployBase is Script {
     function _deployJsonFilename() internal view returns (string memory) {
         return string(abi.encodePacked(artifactDir, "deploy-", chainName, ".json"));
     }
-
 }

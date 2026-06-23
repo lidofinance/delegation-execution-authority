@@ -119,7 +119,6 @@ contract DelegationContractAssignDelegateTest is DelegationContractBaseTestWithD
     }
 }
 
-
 contract DelegationContractRevokeDelegateTest is DelegationContractBaseTestWithDeployment {
     function test_revokeDelegate() public {
         vm.expectEmit();
@@ -133,7 +132,7 @@ contract DelegationContractRevokeDelegateTest is DelegationContractBaseTestWithD
 
     function test_revokeDelegate_revertWhen_NoDelegatee() public {
         DelegationContract delegationContractNoDelegatee = new DelegationContract(admin, address(0));
-        
+
         vm.expectRevert(abi.encodeWithSelector(IDelegationContract.NoDelegatee.selector));
         vm.prank(admin);
         delegationContractNoDelegatee.revokeDelegate();
