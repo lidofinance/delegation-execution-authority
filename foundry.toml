@@ -29,6 +29,7 @@ ignored_warnings_from = [
 verbosity = 3
 eth_rpc_timeout = 120
 fuzz = { runs = 10_000, max_test_rejects = 2_000_000 }
+ffi = false
 
 [profile.coverage]
 # due to coverage running with optimizer disabled, we need to increase the gas limit

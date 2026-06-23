@@ -12,11 +12,9 @@ import { DelegationContract } from "./DelegationContract.sol";
 /// @dev Deploys standardized delegation contracts for permissioned entities
 contract DelegationFactory is IDelegationFactory {
     /// @inheritdoc IDelegationFactory
-    function deployDelegation(address admin, address delegatee) external returns (address) {
-        address delegation = address(new DelegationContract(admin, delegatee));
+    function deployDelegation(address admin, address delegatee) external returns (address delegation) {
+        delegation = address(new DelegationContract(admin, delegatee));
 
         emit DelegationDeployed(admin, delegation);
-
-        return delegation;
     }
 }

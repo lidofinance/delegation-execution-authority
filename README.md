@@ -34,18 +34,18 @@ This model assumes that each permissioned entity (oracle/council operator) is a 
 ## Key Principles
 
 1. **Hot keys no longer hold protocol power directly**
-    - Hot keys only act as *delegatees*
-    - All authority is mediated by the on-chain delegation contract
+   - Hot keys only act as _delegatees_
+   - All authority is mediated by the on-chain delegation contract
 2. **Admin controls delegation**
-    - Each delegation contract has an Admin
-    - Admin is a cold key or multisig
-    - Admin can assign or revoke hot keys instantly
+   - Each delegation contract has an Admin
+   - Admin is a cold key or multisig
+   - Admin can assign or revoke hot keys instantly
 3. **Protocol trusts Delegation contracts**
-    - Delegation contracts can have only one admin and one delegatee
-    - Core contracts can validate signed messages in the delegation contracts
+   - Delegation contracts can have only one admin and one delegatee
+   - Core contracts can validate signed messages in the delegation contracts
 4. **Factory-based deployment**
-    - A factory contract deploys a standardized delegation contract
-    - Delegation Layer should be used for any permissioned bot
+   - A factory contract deploys a standardized delegation contract
+   - Delegation Layer should be used for any permissioned bot
 
 ## Architecture
 
@@ -124,7 +124,7 @@ cast wallet import --interactive Deployer
 ### 2. Deploy DelegationFactory
 
 ```bash
-just deploy-live ----account Deployer
+just deploy-live --account Deployer
 ```
 
 ### 3. Deploy DelegationContract
@@ -143,12 +143,12 @@ Once the factory is deployed, anyone can deploy their own DelegationContract:
 
 On Etherscan, go to your DelegationContract → **Write Contract**:
 
-| Function | Description | Who can call |
-|----------|-------------|--------------|
-| `assignDelegate(address)` | Set or rotate the hot key | Admin only |
-| `revokeDelegate()` | Remove delegatee access | Admin only |
-| `changeAdmin(address)` | Transfer admin role | Admin only |
-| `execute(bytes)` | Execute call through contract | Delegatee only |
+| Function                  | Description                   | Who can call   |
+| ------------------------- | ----------------------------- | -------------- |
+| `assignDelegate(address)` | Set or rotate the hot key     | Admin only     |
+| `revokeDelegate()`        | Remove delegatee access       | Admin only     |
+| `changeAdmin(address)`    | Transfer admin role           | Admin only     |
+| `execute(bytes)`          | Execute call through contract | Delegatee only |
 
 ### 5. Request Protocol Permissions
 

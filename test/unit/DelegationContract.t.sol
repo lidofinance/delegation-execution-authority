@@ -5,6 +5,9 @@ pragma solidity 0.8.35;
 
 import { Vm } from "forge-std/Vm.sol";
 import { Test } from "forge-std/Test.sol";
+
+import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+
 import { DelegationContract } from "../../src/DelegationContract.sol";
 import { IDelegationContract } from "../../src/interfaces/IDelegationContract.sol";
 import { Utilities } from "../helpers/Utilities.sol";
@@ -181,7 +184,15 @@ contract DelegationContractIsValidSignatureTest is DelegationContractBaseTest {
 
         bytes4 magicValue = delegationContract.isValidSignature(hash, signature);
 
-        assertEq(magicValue, EIP1271_INVALID, "Expected invalid signature to return correct magic value");
+        assertEq(magicValue, EIP1271_INVALID, "Expected invalid signature to return correct value");
+    }
+
+    function test_isValidSignature_malformedSignature() public {
+        bytes32 hash = keccak256("TEST_HASH");
+        bytes memory signature = abi.encodePacked(uint256(0x01), uint256(0x02), uint8(3)); // Malformed signature
+
+        vm.expectRevert(ECDSA.ECDSAInvalidSignature.selector);
+        delegationContract.isValidSignature(hash, signature);
     }
 
     function test_isValidSignature_invalidIfDelegateeIsZero() public {
